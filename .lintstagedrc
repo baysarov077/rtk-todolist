@@ -1,5 +1,0 @@
-{
-  "*{.json,.jsx,.js,.css,.html,.yml}": "prettier --check",
-  "*{.jsx,.js}": "eslint --report-unused-disable-directives --max-warnings 0",
-  "*": "npm run test:ci ./src"
-}
