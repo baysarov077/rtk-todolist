@@ -1,4 +1,4 @@
-import { Button, Container, TextField } from '@mui/material';
+import { Button, Container, Pagination, Stack, TextField } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import React, { useState } from 'react';
 import { useAddTodoMutation, useGetTodosQuery } from '../app/redux/todosApi';
@@ -8,6 +8,8 @@ const Todos = () => {
   const [todo, setTodo] = useState('');
   const { data = [] } = useGetTodosQuery();
   const [addTodo] = useAddTodoMutation();
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   const handleAddTodo = async () => {
     if (todo) {
@@ -15,6 +17,14 @@ const Todos = () => {
       setTodo('');
     }
   };
+
+  const handlePageChange = (event: any, value: any) => {
+    setCurrentPage(value);
+  };
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const displayedTodos = data.slice(startIndex, endIndex);
 
   return (
     <Container maxWidth="xs">
@@ -49,7 +59,7 @@ const Todos = () => {
         </Button>
       </div>
       <div>
-        {data.map((item) => {
+        {displayedTodos.map((item) => {
           return (
             <Todo
               key={item.id}
@@ -60,6 +70,19 @@ const Todos = () => {
           );
         })}
       </div>
+      <Stack
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+        spacing={2}
+        mt={2}
+      >
+        <Pagination
+          count={Math.ceil(data.length / itemsPerPage)}
+          page={currentPage}
+          onChange={handlePageChange}
+        />
+      </Stack>
     </Container>
   );
 };
