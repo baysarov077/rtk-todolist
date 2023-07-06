@@ -1,10 +1,9 @@
-import React from 'react';
-import Todos from '../entities/Todos';
+import { Main } from '../pages';
 
 function App() {
   return (
     <div className="App">
-      <Todos />
+      <Main />
     </div>
   );
 }
